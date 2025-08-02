@@ -9,6 +9,8 @@ The project aims to examine key aspects of Netflix content such as types (movies
 
 # Dataset
 Data is sourced from a public Netflix dataset with thousands of records detailing show metadata including type, rating, release year, genres, and more. The dataset is structured using PostgreSQL-compatible schema definitions.
+<a href="https://github.com/ankit200124/Netflix-Content-Analytics-with-SQL/blob/main/netflix_Data.csv"> Dataset</a>
+
 
 # Schema
 ```
@@ -159,6 +161,7 @@ SELECT category, COUNT(*) AS total_content
 FROM new_table
 GROUP BY 1;
 ```
+<a href="https://github.com/ankit200124/Netflix-Content-Analytics-with-SQL/blob/main/Netflix%20project.sql"> SQL file</a>
 # Findings & Outcome
 Using structured SQL queries, the project answers 15 key business questions that reflect how Netflix's content is distributed and consumed. It reveals patterns like the dominance of movies over TV shows, the most common age ratings, countries with the highest content availability, and trends in genre and actor appearances. It also demonstrates how to work with missing data, use advanced SQL functions like CTEs and window functions, and apply string manipulation for better classification and segmentation.
 
