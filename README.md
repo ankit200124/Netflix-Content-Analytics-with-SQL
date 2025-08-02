@@ -29,8 +29,8 @@ description varchar(260)
 
 # Business Problems and Solutions
 
-1. Count the Number of Movies vs TV Shows
-   SELECT type, COUNT(*) AS total_content
+### Count the Number of Movies vs TV Shows
+   ```SELECT type, COUNT(*) AS total_content
 FROM netflix
 GROUP BY type;
 
