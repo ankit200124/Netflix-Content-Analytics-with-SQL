@@ -11,6 +11,7 @@ The project aims to examine key aspects of Netflix content such as types (movies
 Data is sourced from a public Netflix dataset with thousands of records detailing show metadata including type, rating, release year, genres, and more. The dataset is structured using PostgreSQL-compatible schema definitions.
 
 # Schema
+```
 --Netflix Project
 create table netflix(
 show_id Varchar(6),
@@ -26,17 +27,17 @@ duration varchar(50),
 listed_in varchar(100),
 description varchar(260)
 );
-
+```
 # Business Problems and Solutions
 
-### 1 Count the Number of Movies vs TV Shows
+### Count the Number of Movies vs TV Shows
    ```
 SELECT type, COUNT(*) AS total_content
 FROM netflix
 GROUP BY type;
 ```
-
-2. Find the Most Common Rating for Movies and TV Shows
+### Find the Most Common Rating for Movies and TV Shows
+```
 SELECT type, rating
 FROM (
   SELECT type, rating, COUNT(*),
@@ -45,16 +46,16 @@ FROM (
   GROUP BY 1, 2
 ) AS t1
 WHERE ranking = 1;
-
-3. List all Movies released in the year 2020
-
+```
+### List all Movies released in the year 2020
+```
 SELECT * 
 FROM netflix
 WHERE type = 'Movie'
   AND release_year = 2020;
-
-4. Find the top 5 countries with the most content on Netflix
-
+```
+### Find the top 5 countries with the most content on Netflix
+```
 SELECT 
   UNNEST(STRING_TO_ARRAY(country, ',')) AS new_country,
   COUNT(show_id) AS total_content
@@ -62,43 +63,43 @@ FROM netflix
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 5;
-
-5. Identify the longest Movie on Netflix
-
+```
+### Identify the longest Movie on Netflix
+```
 SELECT * 
 FROM netflix
 WHERE type = 'Movie'
   AND duration = (SELECT MAX(duration) FROM netflix);
-
-6. Find content added in the last 5 years
-
+```
+### Find content added in the last 5 years
+```
 SELECT *
 FROM netflix
 WHERE TO_DATE(date_added, 'Month DD, YYYY') >= CURRENT_DATE - INTERVAL '5 years';
-
-7.  Find all content directed by Rajiv Chilaka
-
+```
+### Find all content directed by Rajiv Chilaka
+```
 SELECT * 
 FROM netflix
 WHERE director ILIKE '%Rajiv Chilaka%';
-
-8. List all TV Shows with more than 5 seasons
-
+```
+### List all TV Shows with more than 5 seasons
+```
 SELECT * 
 FROM netflix
 WHERE type = 'TV Show'
   AND SPLIT_PART(duration, ' ', 1)::NUMERIC > 5;
-
-9. Count the number of content items in each genre
-
+```
+### Count the number of content items in each genre
+```
 SELECT 
   UNNEST(STRING_TO_ARRAY(listed_in, ',')) AS genre,
   COUNT(show_id) AS total_content
 FROM netflix
 GROUP BY 1;
-
-10. Find top 5 years with highest average content release in India
-
+```
+### Find top 5 years with highest average content release in India
+```
 SELECT 
   country,
   release_year,
@@ -112,28 +113,28 @@ WHERE country = 'India'
 GROUP BY country, 2
 ORDER BY avg_release DESC
 LIMIT 5;
-
-11. List all Movies that are Documentaries
-
+```
+### List all Movies that are Documentaries
+```
 SELECT * 
 FROM netflix
 WHERE listed_in ILIKE '%documentaries%';
-
-12. Find all content without a director
-
+```
+### Find all content without a director
+```
 SELECT * 
 FROM netflix
 WHERE director IS NULL;
-
-13. Find how many Movies Salman Khan appeared in the last 10 years
-
+```
+### Find how many Movies "Salman Khan" has appeared in the last 10 years
+```
 SELECT * 
 FROM netflix
 WHERE casts ILIKE '%salman khan%'
   AND release_year > EXTRACT(YEAR FROM CURRENT_DATE) - 10;
-
-14. Find the top 10 actors with the most appearances in Indian content
-
+```
+### Find the top 10 actors with the most appearances in Indian content
+```
 SELECT 
   UNNEST(STRING_TO_ARRAY(casts, ',')) AS actors,
   COUNT(*) AS total_content
@@ -142,9 +143,9 @@ WHERE country ILIKE '%India%'
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 10;
-
-15. Categorize content as ‘Bad’ if description contains 'kill' or 'violence', else ‘Good’
-
+```
+### Categorize content as ‘Bad’ if description contains 'kill' or 'violence', else ‘Good’
+```
 WITH new_table AS (
   SELECT *, 
          CASE
@@ -157,7 +158,7 @@ WITH new_table AS (
 SELECT category, COUNT(*) AS total_content
 FROM new_table
 GROUP BY 1;
-
+```
 # Findings & Outcome
 Using structured SQL queries, the project answers 15 key business questions that reflect how Netflix's content is distributed and consumed. It reveals patterns like the dominance of movies over TV shows, the most common age ratings, countries with the highest content availability, and trends in genre and actor appearances. It also demonstrates how to work with missing data, use advanced SQL functions like CTEs and window functions, and apply string manipulation for better classification and segmentation.
 
