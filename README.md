@@ -29,10 +29,11 @@ description varchar(260)
 
 # Business Problems and Solutions
 
-### Count the Number of Movies vs TV Shows
+### 1 Count the Number of Movies vs TV Shows
    ```SELECT type, COUNT(*) AS total_content
 FROM netflix
 GROUP BY type;
+```
 
 2. Find the Most Common Rating for Movies and TV Shows
 SELECT type, rating
